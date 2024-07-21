@@ -1,12 +1,16 @@
 function equip()
   for i = 1, 16 do
-    tool_slot = 1
-    curr_item = turtle.getItemDetail(i).name
-    if curr_item == "minecraft:diamond_axe" or curr_item or "minecraft:diamond_pickaxe" or curr_item or "minecraft:diamond_shovel" or curr_item == "minecraft:diamond_hoe" or curr_item == "minecraft:diamond_sword" then
-      tool_slot = i
-      turtle.equipLeft(tool_slot)
-      return 0
-      break
+    local curr_item = turtle.getItemDetail(i)
+    if curr_item then
+      local item_name = curr_item.name
+      if item_name == "minecraft:diamond_axe" or item_name == "minecraft:diamond_pickaxe" or 
+         item_name == "minecraft:diamond_shovel" or item_name == "minecraft:diamond_hoe" or 
+         item_name == "minecraft:diamond_sword" then
+        turtle.equipLeft(i)
+        return 0
+      end
     end
+  end
   return 1
 end
+
