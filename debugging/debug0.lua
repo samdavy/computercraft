@@ -1,5 +1,5 @@
 package.path = package.path .. ";../modules/?.lua"
 
-local utils = require("modules.utils")
+local utils = require("utils")
 
 utils.equipTool()
