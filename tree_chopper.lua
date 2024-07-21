@@ -1,44 +1,80 @@
--- 41, 93, -239
--- 58, 93, -222
--- 41, 109, -239
-
 -- Constants
 local START_X, START_Y, START_Z = 41, 93, -239
 local END_X, END_Y, END_Z = 58, 93, -222
 local SAPLING_Y = 93  -- The Y-level where saplings are planted
 
+-- Starting position
+local currentX, currentY, currentZ = START_X, START_Y, START_Z
+
+-- Function to move forward and update position
+function moveForward()
+    if turtle.forward() then
+        currentZ = currentZ + 1
+    end
+end
+
+-- Function to move back and update position
+function moveBack()
+    if turtle.back() then
+        currentZ = currentZ - 1
+    end
+end
+
+-- Function to move up and update position
+function moveUp()
+    if turtle.up() then
+        currentY = currentY + 1
+    end
+end
+
+-- Function to move down and update position
+function moveDown()
+    if turtle.down() then
+        currentY = currentY - 1
+    end
+end
+
+-- Function to move left and update position
+function moveLeft()
+    turtle.turnLeft()
+    moveForward()
+    turtle.turnRight()
+end
+
+-- Function to move right and update position
+function moveRight()
+    turtle.turnRight()
+    moveForward()
+    turtle.turnLeft()
+end
+
 -- Function to move to a specific coordinate
 function moveTo(x, y, z)
-    local currentX, currentY, currentZ = gps.locate()
-    
-    -- Move in X direction
-    while currentX ~= x do
-        if currentX < x then
-            turtle.forward()
-        else
-            turtle.back()
-        end
-        currentX, currentY, currentZ = gps.locate()
-    end
-    
-    -- Move in Y direction
+    -- Move in Y direction first
     while currentY ~= y do
         if currentY < y then
-            turtle.up()
+            moveUp()
         else
-            turtle.down()
+            moveDown()
         end
-        currentY = gps.locate()
+    end
+
+    -- Move in X direction second
+    while currentX ~= x do
+        if currentX < x then
+            moveRight()
+        else
+            moveLeft()
+        end
     end
     
-    -- Move in Z direction
+    -- Move in Z direction last
     while currentZ ~= z do
         if currentZ < z then
-            turtle.forward()
+            moveForward()
         else
-            turtle.back()
+            moveBack()
         end
-        currentX, currentY, currentZ = gps.locate()
     end
 end
 
@@ -46,12 +82,12 @@ end
 function chopTree()
     while turtle.detect() do
         turtle.dig()
-        turtle.up()
+        moveUp()
     end
     
     -- Move back down
     while not turtle.detectDown() do
-        turtle.down()
+        moveDown()
     end
 end
 
@@ -103,3 +139,4 @@ end
 
 -- Run the main function
 main()
+
