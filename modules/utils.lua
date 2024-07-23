@@ -35,4 +35,9 @@ function utils.select_item(item)
     end
 end
 
+function utils.test_function()
+  local butt = "hello"
+  print(butt)
+end
+
 return utils
