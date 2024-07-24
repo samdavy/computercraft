@@ -63,6 +63,3 @@ while nav0.position.y > 53 do
   nav0:logPosition()
 end
 
-
-
-

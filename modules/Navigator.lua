@@ -1,9 +1,8 @@
 Navigator = {}
 
 function Navigator:new(x, y, z, facing)
-  local instance = {}
-  setmetatable(instance, self)
   self.__index = self
+  local instance = setmetatable({}, self)
   instance.position = {
     x = x or 0,
     y = y or 0,
@@ -107,30 +106,6 @@ end
 function Navigator:turnToFace(direction)
   while self.position.facing ~= direction do
     self:turnRight()
-  end
-end
-
-function Navigator:moveToXZ(targetX, targetZ)
-  while self.position.x ~= targetX do
-    self:logPosition()
-    if self.position.x < targetX then
-      self:turnToFace("east")
-      self:moveForward()
-    elseif self.position.x > targetX then
-      self:turnToFace("west")
-      self:moveForward()
-    end
-  end
-
-  while self.position.z ~= targetZ do
-    self:logPosition()
-    if self.position.z < targetZ then
-      self:turnToFace("south")
-      self:moveForward()
-    elseif self.position.z > targetZ then
-      self:turnToFace("north")
-      self:moveForward()
-    end
   end
 end
 
